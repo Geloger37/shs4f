@@ -98,7 +98,7 @@ public class AppFrame extends JFrame {
 		});
 		contentPane.add(connectButton);
 
-		dataLabel = new JLabel("0 C°");
+		dataLabel = new JLabel("NULL C°");
 		dataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dataLabel.setFont(new Font("Consolas", Font.PLAIN, 50));
 		dataLabel.setBounds(0, 65, 436, 200);
