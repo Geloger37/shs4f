@@ -13,6 +13,11 @@ import jssc.SerialPortException;
 import jssc.SerialPortList;
 import shs4f.app.AppFrame;
 
+/**
+ * @author Anatoly
+ * @version 0.0.1
+ * @since 26.02.2022
+ */
 public class ArduinoCore {
 	public enum SerialStatus {
 		BAD_BAUNDRATE_OR_DATABITS_OR_PARITY("Ошибка в настройках подключения"),
@@ -25,7 +30,7 @@ public class ArduinoCore {
 		SerialStatus(String s) {
 			this.label = s;
 		}
-		
+
 		public String getLabel() {
 			return label;
 		}
@@ -52,14 +57,17 @@ public class ArduinoCore {
 
 	private Timer timeoutTimer;
 
-	public ArduinoCore(int boudrate, int databits, int stopbits, int parity) {
+	public ArduinoCore() {
 		super();
 		statusActionList.add(message -> logger.info("status---->>----" + message));
+		changeStatus(SerialStatus.NOT_CONNECTED);
+	}
+
+	public void setParametrs(int boudrate, int databits, int stopbits, int parity) {
 		this.baudrate = boudrate;
 		this.databits = databits;
 		this.stopbits = stopbits;
 		this.parity = parity;
-		changeStatus(SerialStatus.NOT_CONNECTED);
 	}
 
 	public void addMessageAction(Action action) {
