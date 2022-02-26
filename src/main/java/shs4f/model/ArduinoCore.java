@@ -52,16 +52,19 @@ public class ArduinoCore {
 
 	private Timer timeoutTimer;
 
-	public ArduinoCore(int boudrate, int databits, int stopbits, int parity) {
+	public ArduinoCore() {
 		super();
 		statusActionList.add(message -> logger.info("status---->>----" + message));
+		changeStatus(SerialStatus.NOT_CONNECTED);
+	}
+	
+	public void setParametrs(int boudrate, int databits, int stopbits, int parity) {
 		this.baudrate = boudrate;
 		this.databits = databits;
 		this.stopbits = stopbits;
 		this.parity = parity;
-		changeStatus(SerialStatus.NOT_CONNECTED);
 	}
-
+	
 	public void addMessageAction(Action action) {
 		messageActionList.add(action);
 	}
