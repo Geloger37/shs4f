@@ -24,8 +24,10 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+import shs4f.model.Action;
 import shs4f.model.ArduinoCore;
 import shs4f.model.ArduinoCore.SerialStatus;
+import javax.swing.JTextField;
 
 /**
  * @author Anatoly
@@ -74,6 +76,7 @@ public class AppFrame extends JFrame {
 	private JProgressBar progressConnectBar;
 	private JLabel statusLabel;
 	private JComboBox<String> stopbitsComboBox;
+	private JTextField requestField;
 
 	/**
 	 * Create the frame.
@@ -89,7 +92,7 @@ public class AppFrame extends JFrame {
 		setResizable(false);
 		setTitle("SHS4j");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setBounds(100, 100, 659, 213);
+		setBounds(100, 100, 659, 259);
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -165,8 +168,7 @@ public class AppFrame extends JFrame {
 		connectPanel.add(progressConnectBar, gbc_progressConnectBar);
 
 		dataLabel = new JLabel("0 C°");
-		dataLabel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Датчик",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		dataLabel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Вывод данных", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		dataLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		dataLabel.setFont(new Font("Consolas", Font.PLAIN, 50));
 		dataLabel.setBounds(359, 15, 276, 153);
@@ -281,7 +283,41 @@ public class AppFrame extends JFrame {
 		gbc_parityComboBox.gridx = 5;
 		gbc_parityComboBox.gridy = 2;
 		parametrsPanel.add(parityComboBox, gbc_parityComboBox);
+		
+		JPanel requestPanel = new JPanel();
+		requestPanel.setBorder(new TitledBorder(null, "Отправка запроса", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		requestPanel.setBounds(10, 178, 625, 42);
+		contentPane.add(requestPanel);
+		GridBagLayout gbl_requestPanel = new GridBagLayout();
+		gbl_requestPanel.columnWidths = new int[]{0, 0, 0};
+		gbl_requestPanel.rowHeights = new int[]{0, 0};
+		gbl_requestPanel.columnWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		gbl_requestPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		requestPanel.setLayout(gbl_requestPanel);
+		
+		requestField = new JTextField();
+		GridBagConstraints gbc_requestField = new GridBagConstraints();
+		gbc_requestField.insets = new Insets(0, 0, 0, 5);
+		gbc_requestField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_requestField.gridx = 0;
+		gbc_requestField.gridy = 0;
+		requestPanel.add(requestField, gbc_requestField);
+		requestField.setColumns(2);
+		
+		JButton sendButton = new JButton("Отправить");
+		GridBagConstraints gbc_sendButton = new GridBagConstraints();
+		gbc_sendButton.gridx = 1;
+		gbc_sendButton.gridy = 0;
+		requestPanel.add(sendButton, gbc_sendButton);
 
+		sendButton.addActionListener(e -> {
+			core.sendAnyMessage(requestField.getText());
+			Action print = message -> {
+				dataLabel.setText(message);
+			};
+			core.addMessageAction(print);
+		});
+		
 		setCoreParametrsFromUI();
 		updateComList();
 		addActions();

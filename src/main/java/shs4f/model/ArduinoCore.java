@@ -44,7 +44,7 @@ public class ArduinoCore {
 
 	private int databits;
 
-	private final String INIT_MESSAGE = "initial arduino";
+	private final String INIT_MESSAGE = "i";
 	private boolean isConnect;
 	private final Logger logger = LoggerFactory.getLogger(ArduinoCore.class);
 	private List<Action> messageActionList = new LinkedList<>();
@@ -171,6 +171,14 @@ public class ArduinoCore {
 		statusActionList.remove(action);
 	}
 
+	public void sendAnyMessage(String s) {
+		try {
+			serial.writeString(s);
+		} catch (SerialPortException e) {
+			changeStatus(SerialStatus.UNKNOWN_ERROR);
+		}
+	}
+	
 	private void sendStartMessage() {
 		try {
 			serial.writeByte((byte) 200);
