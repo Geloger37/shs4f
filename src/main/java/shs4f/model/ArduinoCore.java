@@ -45,7 +45,7 @@ public class ArduinoCore {
 	private int databits;
 
 	private final String INIT_MESSAGE = "i";
-	private boolean isConnect;
+	//private boolean isConnect;
 	private final Logger logger = LoggerFactory.getLogger(ArduinoCore.class);
 	private List<Action> messageActionList = new LinkedList<>();
 
@@ -118,7 +118,7 @@ public class ArduinoCore {
 			serial.addEventListener(serialPortEvent -> {
 				if (serialPortEvent.isRXCHAR() && serialPortEvent.getEventValue() > 0) {
 					try {
-						isConnect = true;
+						//isConnect = true;
 						String message = serial.readString(serialPortEvent.getEventValue());
 						logger.info(message);
 						messageActionList.forEach(a -> a.notifyElement(message));
