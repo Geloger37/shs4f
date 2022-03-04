@@ -55,7 +55,7 @@ public class ArduinoCore {
 	private List<Action> statusActionList = new LinkedList<>();
 	private int stopbits;
 
-	private Timer timeoutTimer;
+	//private Timer timeoutTimer;
 
 	public ArduinoCore() {
 		super();
@@ -90,7 +90,7 @@ public class ArduinoCore {
 			serial.closePort();
 			messageActionList.clear();
 			statusActionList.clear();
-			closeTimeout();
+			//closeTimeout();
 		} catch (SerialPortException e) {
 			logger.error(e.toString());
 			changeStatus(SerialStatus.UNKNOWN_ERROR);
@@ -98,9 +98,9 @@ public class ArduinoCore {
 
 	}
 
-	private void closeTimeout() {
-		timeoutTimer.cancel();
-	}
+//	private void closeTimeout() {
+//		timeoutTimer.cancel();
+//	}
 
 	public SerialStatus getStatus() {
 		return status;
@@ -110,7 +110,7 @@ public class ArduinoCore {
 
 		try {
 			this.serial = new SerialPort(port);
-			setTimeout();
+			//setTimeout();
 			serial.openPort();
 			changeStatus(SerialStatus.IN_CONNECT);
 			serial.setParams(baudrate, databits, stopbits, parity);
@@ -187,24 +187,24 @@ public class ArduinoCore {
 		}
 	}
 
-	private void setTimeout() {
-		timeoutTimer = new Timer(true);
-		timeoutTimer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				if (isConnect) {
-					isConnect = false;
-				} else {
-					changeStatus(SerialStatus.NOT_CONNECTED);
-					messageActionList.clear();
-					statusActionList.clear();
-					AppFrame.getInstance().addActions();
-					closeTimeout();
-				}
-			}
-		}, 2500, 2500);
-	}
+//	private void setTimeout() {
+//		timeoutTimer = new Timer(true);
+//		timeoutTimer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				if (isConnect) {
+//					isConnect = false;
+//				} else {
+//					changeStatus(SerialStatus.NOT_CONNECTED);
+//					messageActionList.clear();
+//					statusActionList.clear();
+//					AppFrame.getInstance().addActions();
+//					closeTimeout();
+//				}
+//			}
+//		}, 2500, 2500);
+//	}
 
 	private void testDatabits() {
 		try {
