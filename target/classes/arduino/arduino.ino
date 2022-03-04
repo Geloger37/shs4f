@@ -17,7 +17,7 @@ void setup() {
 void loop() {
   if (readyToSend){ // Состояние передачи данных с датчика
 //    temp = dht.readTemperature();
-//    Serial.print(temp);
+//    Serial.print("25");
 //    delay(1000);
       if(Serial.available() > 0) {
         int incomingByte = Serial.read();
